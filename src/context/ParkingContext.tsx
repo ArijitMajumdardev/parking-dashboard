@@ -1,9 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-
-
-
-export const ParkingContext = createContext<ParkingContextType | null >(null);
+export const ParkingContext = createContext<ParkingContextType | null>(null);
 
 const initialParkingLayout: ParkingSlot[] = Array.from(
   { length: 24 },
@@ -40,11 +37,11 @@ function ParkingProvider({ children }: { children: React.ReactNode }) {
 }
 
 export const useParkingContext = () => {
-    const context = useContext(ParkingContext);
-    if (!context) {
-        throw new Error("useParkingContext must be used within a ParkingProvider");
-    }
-    return context
-}
+  const context = useContext(ParkingContext);
+  if (!context) {
+    throw new Error("useParkingContext must be used within a ParkingProvider");
+  }
+  return context;
+};
 
 export default ParkingProvider;
