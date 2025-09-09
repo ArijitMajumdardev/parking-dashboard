@@ -12,7 +12,7 @@ export default function App() {
     <ParkingProvider>
       <BrowserRouter>
         <Header />
-        <main className="container mx-auto mt-8 p-4">
+        <main className="container mx-auto mt-8 p-4  ">
           <Routes>
             <Route path="/" element={<LayoutPage />} />
             <Route path="/billing" element={<BillingPage />} />

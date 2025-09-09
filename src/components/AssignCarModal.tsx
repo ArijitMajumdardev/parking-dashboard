@@ -1,24 +1,15 @@
 import React from "react";
-import type { FormEvent } from "react";
-
-
-interface AssignCarModalProps {
-  selectedSlot: ParkingSlot;
-  carRegistration: string;
-  setCarRegistration: (reg: string) => void;
-  handleAssignCar: (e: FormEvent) => void;
-  handleCloseModal: () => void;
-}
 
 const AssignCarModal: React.FC<AssignCarModalProps> = ({
   selectedSlot,
   carRegistration,
   setCarRegistration,
   handleAssignCar,
-  handleCloseModal,
+    handleCloseModal,
+  error
 }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/20 bg-opacity-50 backdrop-blur-sm">
       <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-sm">
         <h3 className="text-xl font-bold mb-4">Add Car Registration</h3>
         <div className="mb-4">
@@ -43,7 +34,10 @@ const AssignCarModal: React.FC<AssignCarModalProps> = ({
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter registration number"
               required
-            />
+                      />
+                      {error ? (<div className="text-left text-red-500 ">
+                          <p>Enter a differ car registration number</p>
+                      </div>):""}
           </div>
           <div className="flex justify-end space-x-2">
             <button

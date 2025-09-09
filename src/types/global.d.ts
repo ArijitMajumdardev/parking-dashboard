@@ -29,3 +29,17 @@ interface ParkingContextType {
   totalRevenue: number;
   setTotalRevenue: React.Dispatch<React.SetStateAction<number>>;
 }
+
+interface AssignCarModalProps {
+  selectedSlot: ParkingSlot;
+  carRegistration: string;
+  setCarRegistration: (reg: string) => void;
+  handleAssignCar: (e: FormEvent) => void;
+    handleCloseModal: () => void;
+    error:boolean
+}
+
+interface ParkingSlotCardProps {
+  slot: ParkingSlot;
+  onClick: (slot: ParkingSlot) => void;
+}

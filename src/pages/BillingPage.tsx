@@ -6,10 +6,10 @@ import { useParkingContext } from "../context/ParkingContext";
 const BillingPage = () => {
   const [billingRegNumber, setBillingRegNumber] = useState<string>("");
   const [receipt, setReceipt] = useState<Receipt | null>(null);
-    const [billingError, setBillingError] = useState<string>("");
+  const [billingError, setBillingError] = useState<string>("");
 
-      const { parkingLayout, setParkingLayout,setTotalRevenue } = useParkingContext();
-    
+  const { parkingLayout, setParkingLayout, setTotalRevenue } =
+    useParkingContext();
 
   const handleGenerateReceipt = useCallback(
     (e: FormEvent) => {
@@ -71,12 +71,14 @@ const BillingPage = () => {
   }, [receipt, parkingLayout]);
 
   return (
-    <div className="flex flex-col items-center justify-start p-8 bg-gray-100 min-h-screen font-inter">
-      <div className="w-full max-w-2xl bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">Billing Page</h2>
+    <div className="flex flex-col items-center justify-start gap-6 p-8 bg-gray-100 min-h-screen font-inter">
+      <div className="w-full max-w-2xl  rounded-lg shadow-md p-6 ">
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">
+          Generate Receipt
+        </h2>
         <div className="mb-4">
           <h3 className="text-xl font-semibold mb-2 text-gray-700">
-            Generate Receipt
+            Car Registration Number
           </h3>
           <form onSubmit={handleGenerateReceipt} className="flex space-x-2">
             <input
@@ -98,13 +100,16 @@ const BillingPage = () => {
             <p className="mt-2 text-red-500 text-sm">{billingError}</p>
           )}
         </div>
-        {receipt && (
+      </div>
+
+      {receipt && (
+
           <ReceiptCard
             receipt={receipt}
             handleCloseParking={handleCloseParking}
           />
-        )}
-      </div>
+       
+      )}
     </div>
   );
 };

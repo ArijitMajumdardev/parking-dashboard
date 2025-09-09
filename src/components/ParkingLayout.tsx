@@ -8,7 +8,7 @@ interface ParkingLayoutProps {
 
 const ParkingLayout: React.FC<ParkingLayoutProps> = ({ parkingLayout, handleOpenModal }) => {
   return (
-    <div className="grid grid-cols-6 gap-4 p-4 bg-white rounded-lg shadow-md">
+    <div className="grid grid-cols-3 md:grid-cols-6 gap-2 md:gap-4 p-4 bg-white rounded-lg shadow-md max-w-5xl w-[1000px]">
       {parkingLayout.map((slot) => (
         <ParkingSlotCard key={slot.id} slot={slot} onClick={handleOpenModal} />
       ))}
