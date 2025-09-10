@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import DashboardStats from "../components/DashboardStats";
 import ParkingLayout from "../components/ParkingLayout";
 import AssignCarModal from "../components/AssignCarModal";
@@ -12,20 +12,18 @@ const LayoutPage = () => {
   const [error, setError] = useState(false);
   const { parkingLayout, setParkingLayout, totalRevenue } = useParkingContext();
 
-    
- 
-  const handleOpenModal = useCallback((slot: ParkingSlot) => {
+  const handleOpenModal = (slot: ParkingSlot) => {
     console.log(parkingLayout);
     setSelectedSlot(slot);
     setShowModal(true);
-  }, []);
+  };
 
-    const handleCloseModal = useCallback(() => {
-      setError(false)
+  const handleCloseModal = () => {
+    setError(false);
     setShowModal(false);
     setSelectedSlot(null);
     setCarRegistration("");
-  }, []);
+  };
 
   const checkForSameCarId = () => {
     return parkingLayout.some(
@@ -35,31 +33,28 @@ const LayoutPage = () => {
     );
   };
 
-  const handleAssignCar = useCallback(
-    (e: FormEvent) => {
-      e.preventDefault();
+  const handleAssignCar = (e: FormEvent) => {
+    e.preventDefault();
 
-      if (checkForSameCarId()) {
-        setError(true);
-        return;
-      }
-      if (selectedSlot && carRegistration) {
-        const newLayout = parkingLayout.map((slot) =>
-          slot.id === selectedSlot.id
-            ? {
-                ...slot,
-                isOccupied: true,
-                carRegistration: carRegistration.toUpperCase(),
-                entryTime: Date.now(),
-              }
-            : slot
-        );
-        setParkingLayout(newLayout);
-        handleCloseModal();
-      }
-    },
-    [selectedSlot, carRegistration, parkingLayout, handleCloseModal]
-  );
+    if (checkForSameCarId()) {
+      setError(true);
+      return;
+    }
+    if (selectedSlot && carRegistration) {
+      const newLayout = parkingLayout.map((slot) =>
+        slot.id === selectedSlot.id
+          ? {
+              ...slot,
+              isOccupied: true,
+              carRegistration: carRegistration.toUpperCase(),
+              entryTime: Date.now(),
+            }
+          : slot
+      );
+      setParkingLayout(newLayout);
+      handleCloseModal();
+    }
+  };
 
   return (
     <div className="container  mx-auto ">

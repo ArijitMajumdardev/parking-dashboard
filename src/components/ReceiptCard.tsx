@@ -22,7 +22,7 @@ const ReceiptCard: React.FC<ReceiptCardProps> = ({
         </button>
         <button
           onClick={() => downloadReceipt(receipt)}
-          className="px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-700"
+          className="px-4 py-2 text-white bg-gray-700 rounded-md hover:bg-gray-800"
         >
           Download PDF
         </button>

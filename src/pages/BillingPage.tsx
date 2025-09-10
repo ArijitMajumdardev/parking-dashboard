@@ -1,4 +1,4 @@
-import { useCallback, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import ReceiptCard from "../components/ReceiptCard";
 import { calculateFee } from "../utils/calculateFee";
 import { useParkingContext } from "../context/ParkingContext";
@@ -11,47 +11,44 @@ const BillingPage = () => {
   const { parkingLayout, setParkingLayout, setTotalRevenue } =
     useParkingContext();
 
-  const handleGenerateReceipt = useCallback(
-    (e: FormEvent) => {
-      e.preventDefault();
-      setReceipt(null);
-      setBillingError("");
-      const occupiedSlot = parkingLayout.find(
-        (slot) =>
-          slot.isOccupied &&
-          slot.carRegistration === billingRegNumber.toUpperCase()
+  const handleGenerateReceipt = (e: FormEvent) => {
+    e.preventDefault();
+    setReceipt(null);
+    setBillingError("");
+    const occupiedSlot = parkingLayout.find(
+      (slot) =>
+        slot.isOccupied &&
+        slot.carRegistration === billingRegNumber.toUpperCase()
+    );
+
+    if (occupiedSlot && occupiedSlot.entryTime) {
+      const exitTime = Date.now();
+      const totalAmount = calculateFee(occupiedSlot.entryTime, exitTime);
+      const durationInSeconds = Math.floor(
+        (exitTime - occupiedSlot.entryTime) / 1000
       );
+      const initialFee = 5;
+      const additionalTime =
+        durationInSeconds > 30 ? durationInSeconds - 30 : 0;
+      const additionalIntervals = Math.ceil(additionalTime / 10);
+      const additionalFee = additionalIntervals;
 
-      if (occupiedSlot && occupiedSlot.entryTime) {
-        const exitTime = Date.now();
-        const totalAmount = calculateFee(occupiedSlot.entryTime, exitTime);
-        const durationInSeconds = Math.floor(
-          (exitTime - occupiedSlot.entryTime) / 1000
-        );
-        const initialFee = 5;
-        const additionalTime =
-          durationInSeconds > 30 ? durationInSeconds - 30 : 0;
-        const additionalIntervals = Math.ceil(additionalTime / 10);
-        const additionalFee = additionalIntervals;
+      setReceipt({
+        slotId: occupiedSlot.id,
+        registrationNumber: occupiedSlot.carRegistration!,
+        entryTime: occupiedSlot.entryTime,
+        exitTime,
+        duration: durationInSeconds,
+        initialFee,
+        additionalFee,
+        totalAmount,
+      });
+    } else {
+      setBillingError("Car not found or not currently parked.");
+    }
+  };
 
-        setReceipt({
-          slotId: occupiedSlot.id,
-          registrationNumber: occupiedSlot.carRegistration!,
-          entryTime: occupiedSlot.entryTime,
-          exitTime,
-          duration: durationInSeconds,
-          initialFee,
-          additionalFee,
-          totalAmount,
-        });
-      } else {
-        setBillingError("Car not found or not currently parked.");
-      }
-    },
-    [billingRegNumber, parkingLayout]
-  );
-
-  const handleCloseParking = useCallback(() => {
+  const handleCloseParking = () => {
     if (receipt) {
       const newLayout = parkingLayout.map((slot) =>
         slot.id === receipt.slotId
@@ -68,7 +65,7 @@ const BillingPage = () => {
       setReceipt(null);
       setBillingRegNumber("");
     }
-  }, [receipt, parkingLayout]);
+  };
 
   return (
     <div className="flex flex-col items-center justify-start gap-6 p-8 bg-gray-100 min-h-screen font-inter">
@@ -91,7 +88,7 @@ const BillingPage = () => {
             />
             <button
               type="submit"
-              className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+              className="px-4 py-2 text-white bg-gray-700 rounded-md hover:bg-gray-800"
             >
               Generate
             </button>
@@ -103,12 +100,10 @@ const BillingPage = () => {
       </div>
 
       {receipt && (
-
-          <ReceiptCard
-            receipt={receipt}
-            handleCloseParking={handleCloseParking}
-          />
-       
+        <ReceiptCard
+          receipt={receipt}
+          handleCloseParking={handleCloseParking}
+        />
       )}
     </div>
   );
