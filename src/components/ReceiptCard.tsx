@@ -1,4 +1,5 @@
 import React from "react";
+import downloadReceipt from "../utils/DownloadReceipt";
 
 interface ReceiptCardProps {
   receipt: Receipt;
@@ -10,16 +11,23 @@ const ReceiptCard: React.FC<ReceiptCardProps> = ({
   handleCloseParking,
 }) => {
   return (
-    <div className="w-full max-w-2xl  rounded-lg shadow-md p-6 ">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">Receipt Priview</h2>
-                  <div className="mt-4 flex justify-end space-x-2 ">
-          <button
-            onClick={handleCloseParking}
-            className="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700"
-          >
-            Close Parking
-          </button>
-        </div>
+    <div className="w-full max-w-2xl rounded-lg shadow-md p-6">
+      <h2 className="text-2xl font-bold mb-4 text-gray-800">Receipt Preview</h2>
+      <div className="mt-4 flex justify-end space-x-2">
+        <button
+          onClick={handleCloseParking}
+          className="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700"
+        >
+          Close Parking
+        </button>
+        <button
+          onClick={() => downloadReceipt(receipt)}
+          className="px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-700"
+        >
+          Download PDF
+        </button>
+      </div>
+
       <div className="mt-6 p-6 border border-gray-200 rounded-lg bg-gray-50">
         <h3 className="text-xl font-bold text-center mb-4">Parking Receipt</h3>
         <div className="grid grid-cols-2 gap-4 text-sm">
@@ -53,20 +61,18 @@ const ReceiptCard: React.FC<ReceiptCardProps> = ({
             <span>Additional time:</span>
             <span>${receipt.additionalFee.toFixed(2)}</span>
           </p>
-          <p className="flex justify-between font-bold text-lg mt-2 ">
+          <p className="flex justify-between font-bold text-lg mt-2">
             <span>Total Amount Due:</span>
             <span>${receipt.totalAmount.toFixed(2)}</span>
           </p>
-              </div>
-              
-              <hr className="border-t border-gray-300 mt-4" />
-              
-              <p className="text-center mt-6">Thank you for parking with us!</p>
-   <p className="text-center">
-  Receipt generated on {new Date().toDateString()}
-</p>
+        </div>
 
+        <hr className="border-t border-gray-300 mt-4" />
 
+        <p className="text-center mt-6">Thank you for parking with us!</p>
+        <p className="text-center">
+          Receipt generated on {new Date().toDateString()}
+        </p>
       </div>
     </div>
   );
