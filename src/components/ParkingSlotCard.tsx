@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 const ParkingSlotCard: React.FC<ParkingSlotCardProps> = ({ slot, onClick }) => {
-  const [elasped, setElasped] = useState<number>( Date.now() - slot.entryTime!)
+  const [elapsed, setElapsed] = useState<number>( Date.now() - slot.entryTime!)
   useEffect(() => {
     if (slot.isOccupied && slot.entryTime) {
       const intervalId = setInterval(() => {
         const currentTime = Date.now();
         const elapsedTimeInMs = currentTime - slot.entryTime!;
-        setElasped(elapsedTimeInMs);
+        setElapsed(elapsedTimeInMs);
       }, 60000);
   
       return () => {
@@ -33,7 +33,7 @@ const ParkingSlotCard: React.FC<ParkingSlotCardProps> = ({ slot, onClick }) => {
           <div className="text-xs">
             Time:{" "}
             {slot.entryTime
-              ? Math.floor(elasped / 1000 / 60) + " min"
+              ? Math.floor(elapsed / 1000 / 60) + " min"
               : ""}
           </div>
         </div>
