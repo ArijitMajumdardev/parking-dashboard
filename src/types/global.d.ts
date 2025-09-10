@@ -1,8 +1,8 @@
 type Slot = {
-  id: string;          // e.g. "A1"
+  id: string;          
   occupied: boolean;
   regNumber?: string;
-  entryTime?: string;  // ISO string
+  entryTime?: string;  
 };
 
  interface ParkingSlot {

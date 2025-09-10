@@ -76,7 +76,7 @@ const downloadReceipt = (receipt: Receipt) => {
 
   // Fee Details
   doc.setDrawColor(200, 200, 200);
-  doc.line(leftMargin, yPosition, leftMargin + contentWidth, yPosition); // Border for fees section
+  doc.line(leftMargin, yPosition, leftMargin + contentWidth, yPosition);
   yPosition += 10;
 
   // Initial Fee
