@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const ParkingSlotCard: React.FC<ParkingSlotCardProps> = ({ slot, onClick }) => {
+  const [elasped, setElasped] = useState<number>( Date.now() - slot.entryTime!)
+  useEffect(() => {
+    if (slot.isOccupied && slot.entryTime) {
+      const intervalId = setInterval(() => {
+        const currentTime = Date.now();
+        const elapsedTimeInMs = currentTime - slot.entryTime!;
+        setElasped(elapsedTimeInMs);
+      }, 60000);
+  
+      return () => {
+        clearInterval(intervalId)
+      }
+    }
+  }, [])
+  
   return (
     <div
       className={`h-26 md:h-20 flex flex-col items-center justify-center p-4 rounded-lg shadow-md cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 ${
@@ -18,7 +33,7 @@ const ParkingSlotCard: React.FC<ParkingSlotCardProps> = ({ slot, onClick }) => {
           <div className="text-xs">
             Time:{" "}
             {slot.entryTime
-              ? Math.floor((Date.now() - slot.entryTime) / 1000 / 60) + " min"
+              ? Math.floor(elasped / 1000 / 60) + " min"
               : ""}
           </div>
         </div>
