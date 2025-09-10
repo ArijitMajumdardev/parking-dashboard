@@ -1,5 +1,5 @@
 import React from "react";
-import downloadReceipt from "../utils/DownloadReceipt";
+import downloadReceipt from "../utils/downloadReceipt";
 
 interface ReceiptCardProps {
   receipt: Receipt;
